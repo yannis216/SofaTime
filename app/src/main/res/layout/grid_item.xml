@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="16dp"
+    android:id="@+id/ll_movie">
+
+    <!--This ImageView holds the poster-->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/iv_poster"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="80dp"
+        android:padding="16dp"
+        android:textAlignment="center"
+        android:textColor="@color/whiteText"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_rating"
+        android:textColor="@color/whiteText"
+        android:textAlignment="center"/>
+
+    <!--This View serves as a visual divider between list items and shows a visual representation of the Rating-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp">
+        <View
+            android:id="@+id/visualRatingGreen"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            android:layout_weight="0"
+            android:background="#0dc450"
+             />
+        <View
+            android:id="@+id/visualRatingGrey"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            android:layout_weight="0"
+            android:background="#dadada"
+        />
+
+    </LinearLayout>
+
+
+</LinearLayout>
