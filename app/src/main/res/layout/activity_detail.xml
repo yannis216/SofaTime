@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
-     >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#000">
+
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -63,11 +63,14 @@
             android:id="@+id/tv_overview_detail"
             android:textColor="@color/whiteText"
             android:padding="16dp" />
-        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_trailer_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#000"
-            />
+            android:background="#000" />
+
     </LinearLayout>
-</ScrollView>
+
+
+</android.support.v4.widget.NestedScrollView>

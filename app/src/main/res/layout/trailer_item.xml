@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <ImageButton
         android:id="@+id/ib_play_trailer"
         android:layout_width="wrap_content"
@@ -15,5 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_trailer_name"
-        android:text="Für diesen Film existieren keine Trailer in unserer Datenbank"/>
+        android:text="Für diesen Film existieren keine Trailer in unserer Datenbank"
+        android:textColor="@color/whiteText"/>
 </LinearLayout>

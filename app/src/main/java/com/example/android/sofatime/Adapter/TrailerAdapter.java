@@ -1,6 +1,9 @@
 package com.example.android.sofatime.Adapter;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,9 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerA
     private List<MovieTrailer> trailers;
     private LayoutInflater mInflater;
 
+
+    private Context context;
+
     public interface TrailerAdapterOnClickHandler {
         void onClick(MovieTrailer requestedMovieTrailer);
     }
@@ -27,6 +33,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerA
     public TrailerAdapter(Context context, ArrayList<MovieTrailer> trailerList){
         this.mInflater = LayoutInflater.from(context);
         this.trailers = trailerList;
+        this.context =context;
     }
 
     public int getItemCount() {
@@ -62,7 +69,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerA
     public void onBindViewHolder(TrailerAdapterViewHolder trailerAdapterViewHolder, int position) {
         MovieTrailer currentTrailer = trailers.get(position);
 
-        String trailerKey = currentTrailer.getKey();
+        final String trailerKey = currentTrailer.getKey();
         String trailerName = currentTrailer.getName();
 
         ImageButton playButton = trailerAdapterViewHolder.itemView.findViewById(R.id.ib_play_trailer);
@@ -71,7 +78,14 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerA
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Place Intent here
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerKey));
+                Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" + trailerKey));
+                try {
+                    context.startActivity(appIntent);
+                } catch (ActivityNotFoundException ex) {
+                    context.startActivity(webIntent);
+                }
             }
         });
         nameView.setText(trailerName);
