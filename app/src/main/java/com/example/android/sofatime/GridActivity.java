@@ -77,11 +77,11 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
         switch (PopOrTop){
             case "Top":
                 /*Create handle for the Retrofit magic*/
-                RetrofitClientInstance.GetTopRatedMoviesService service2 = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetTopRatedMoviesService.class);
+                RetrofitClientInstance.GetTopRatedMoviesService service2 = RetrofitClientInstance.getRetrofitInstance(this).create(RetrofitClientInstance.GetTopRatedMoviesService.class);
                 return service2.getTopRatedMovies();
             default:
                 /*Create handle for the Retrofit magic*/
-                RetrofitClientInstance.GetPopularMoviesService service1 = RetrofitClientInstance.getRetrofitInstance().create(RetrofitClientInstance.GetPopularMoviesService.class);
+                RetrofitClientInstance.GetPopularMoviesService service1 = RetrofitClientInstance.getRetrofitInstance(this ).create(RetrofitClientInstance.GetPopularMoviesService.class);
                 return service1.getPopularMovies();
         }
 

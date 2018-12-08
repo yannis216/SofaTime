@@ -1,5 +1,7 @@
 package com.example.android.sofatime;
 
+import android.content.Context;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -11,16 +13,16 @@ public class RetrofitClientInstance {
 
     private static Retrofit retrofit;
     private static final String BASE_URL ="http://api.themoviedb.org/3/";
+    private static final String API_KEY = BuildConfig.movieDB_Api_Key;  //TODO(1) Insert Movie Database API Key here
 
-    private static final String API_KEY = "";  //TODO(1) Insert Movie Database API Key here
-
-    public static Retrofit getRetrofitInstance() {
+    public static Retrofit getRetrofitInstance(Context context) {
 
         //TODO Remove Debug Stuff
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         client.addInterceptor(loggingInterceptor);
+
 
 
         if (retrofit == null) {

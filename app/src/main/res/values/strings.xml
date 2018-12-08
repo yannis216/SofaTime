@@ -5,4 +5,6 @@
     <string name="preference_top">Sort by Userrating</string>
     <string name="preference_pop">Sort by Popularity</string>
 
+    <string name="api_key"></string>
+
 </resources>
