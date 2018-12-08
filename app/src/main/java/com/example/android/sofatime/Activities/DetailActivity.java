@@ -90,6 +90,8 @@ public class DetailActivity extends AppCompatActivity {
         ArrayList<MovieTrailer> trailerList = trailers.getTrailers();
         Log.e("TRAILERS", trailerList.toString());
 
+        mRecyclerView.setNestedScrollingEnabled(false);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTrailerAdapter = new TrailerAdapter(this, trailerList);
         mRecyclerView.setAdapter(mTrailerAdapter);
