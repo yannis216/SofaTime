@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public class RetrofitClientInstance {
 
@@ -48,8 +49,8 @@ public class RetrofitClientInstance {
     }
 
     public interface GetSpecificTrailersService{
-        @GET("movie/" + id + "/videos?api_key=" + API_KEY)
-        Call<MovieTrailerList> getSpecificTrailers(int id); //TODO Not sure here
+        @GET("movie/{id}/videos?api_key=" + API_KEY)
+        Call<MovieTrailerList> getSpecificTrailers(@Path("id") String id); //TODO Not sure here
     }
     
 
