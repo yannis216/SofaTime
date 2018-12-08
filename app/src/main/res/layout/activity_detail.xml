@@ -10,7 +10,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".DetailActivity"
+        tools:context=".Activities.DetailActivity"
         android:orientation="vertical"
         >
         <LinearLayout
@@ -63,5 +63,11 @@
             android:id="@+id/tv_overview_detail"
             android:textColor="@color/whiteText"
             android:padding="16dp" />
+        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/rv_trailer_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#000"
+            />
     </LinearLayout>
 </ScrollView>

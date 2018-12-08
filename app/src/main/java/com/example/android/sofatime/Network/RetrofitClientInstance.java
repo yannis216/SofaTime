@@ -1,6 +1,10 @@
-package com.example.android.sofatime;
+package com.example.android.sofatime.Network;
 
 import android.content.Context;
+
+import com.example.android.sofatime.BuildConfig;
+import com.example.android.sofatime.Model.MovieTrailerList;
+import com.example.android.sofatime.Model.Movies;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -50,7 +54,7 @@ public class RetrofitClientInstance {
 
     public interface GetSpecificTrailersService{
         @GET("movie/{id}/videos?api_key=" + API_KEY)
-        Call<MovieTrailerList> getSpecificTrailers(@Path("id") String id); //TODO Not sure here
+        Call<MovieTrailerList> getSpecificTrailers(@Path("id") int id); //TODO Not sure here
     }
     
 

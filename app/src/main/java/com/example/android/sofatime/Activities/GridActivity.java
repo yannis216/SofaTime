@@ -1,4 +1,4 @@
-package com.example.android.sofatime;
+package com.example.android.sofatime.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +12,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.android.sofatime.Model.Movie;
+import com.example.android.sofatime.Adapter.MovieAdapter;
+import com.example.android.sofatime.Model.Movies;
+import com.example.android.sofatime.R;
+import com.example.android.sofatime.Network.RetrofitClientInstance;
+
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GridActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler{
+public class GridActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
 
     private RecyclerView mRecyclerView;

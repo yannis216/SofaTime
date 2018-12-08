@@ -1,4 +1,4 @@
-package com.example.android.sofatime;
+package com.example.android.sofatime.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
