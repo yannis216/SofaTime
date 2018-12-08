@@ -46,6 +46,11 @@ public class RetrofitClientInstance {
         @GET("movie/top_rated?api_key="+ API_KEY)
         Call<Movies> getTopRatedMovies();
     }
+
+    public interface GetSpecificTrailersService{
+        @GET("movie/" + id + "/videos?api_key=" + API_KEY)
+        Call<MovieTrailerList> getSpecificTrailers(int id); //TODO Not sure here
+    }
     
 
 

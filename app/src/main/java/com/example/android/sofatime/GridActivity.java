@@ -44,7 +44,7 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     //Initiates that the adapter does its work :-)
     private void generateDataList(Movies movies){
-        mRecyclerView = findViewById(R.id.recyclerview);
+        mRecyclerView = findViewById(R.id.rv_gridview);
         int numberOfColumns = 2;
         ArrayList<Movie> movieList = movies.getResults();
 
@@ -114,7 +114,5 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO I feel like this file is getting hard to follow because of all the different methods in it.
-    //TODO Is ist better to create separate Java Files to store methods like loadMovieData and PopOrTopFinder in it?
 
 }
