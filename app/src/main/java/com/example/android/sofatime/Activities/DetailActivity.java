@@ -19,7 +19,7 @@ import com.example.android.sofatime.Network.RetrofitClientInstance;
 import com.example.android.sofatime.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,6 +61,7 @@ public class DetailActivity extends AppCompatActivity {
         picasso.load(imageUrl).into(posterDetailView);
 
         loadTrailerData(detailedMovie.getId());
+
     }
 
     public void loadTrailerData(int id){
@@ -72,6 +73,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<MovieTrailerList> call, Response<MovieTrailerList> response) {
                 generateDataList(response.body());
+
             }
 
             @Override
@@ -85,7 +87,8 @@ public class DetailActivity extends AppCompatActivity {
     //Initiates that the adapter does its work :-)
     private void generateDataList(MovieTrailerList trailers){
         mRecyclerView = findViewById(R.id.rv_trailer_list);
-        List<MovieTrailer> trailerList = trailers.getTrailers();
+        ArrayList<MovieTrailer> trailerList = trailers.getTrailers();
+        Log.e("TRAILERS", trailerList.toString());
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTrailerAdapter = new TrailerAdapter(this, trailerList);

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.android.sofatime.Model.MovieTrailer;
 import com.example.android.sofatime.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +24,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerA
     }
 
 
-    public TrailerAdapter(Context context, List<MovieTrailer> trailerList){
+    public TrailerAdapter(Context context, ArrayList<MovieTrailer> trailerList){
         this.mInflater = LayoutInflater.from(context);
         this.trailers = trailerList;
     }
