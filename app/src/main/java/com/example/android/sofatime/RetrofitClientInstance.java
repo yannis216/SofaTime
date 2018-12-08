@@ -29,7 +29,7 @@ public class RetrofitClientInstance {
             retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
-                    .client(client.build()) //TODO to be removed when debugging ends
+                    .client(client.build())
                     .build();
         }
         return retrofit;
@@ -46,6 +46,7 @@ public class RetrofitClientInstance {
         @GET("movie/top_rated?api_key="+ API_KEY)
         Call<Movies> getTopRatedMovies();
     }
+    
 
 
 }
