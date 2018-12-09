@@ -5,10 +5,10 @@ import android.arch.persistence.room.Query;
 
 import com.example.android.sofatime.Model.Movie;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Dao
 public interface movieDao {
     @Query ("SELECT * FROM movies")
-    ArrayList<Movie> getMovies();
+    List<Movie> getMovies();
 }

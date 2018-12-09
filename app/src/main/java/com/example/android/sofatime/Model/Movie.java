@@ -23,9 +23,6 @@ public class Movie implements Serializable {
     @SerializedName("poster_path")
     @Expose
     private String posterPath;
-    @SerializedName("original_title")
-    @Expose
-    private String originalTitle;
     @SerializedName("overview")
     @Expose
     private String overview;
@@ -34,12 +31,11 @@ public class Movie implements Serializable {
     private String releaseDate;
     private boolean isStarred = false; //TODO Dont know if this can cause issues later on
 
-    public Movie(Integer id, Double voteAverage, String title, String posterPath, String originalTitle, String overview, String releaseDate, boolean isStarred) {
+    public Movie(Integer id, Double voteAverage, String title, String posterPath, String overview, String releaseDate, boolean isStarred) {
         this.id = id;
         this.voteAverage = voteAverage;
         this.title = title;
         this.posterPath = posterPath;
-        this.originalTitle = originalTitle;
         this.overview = overview;
         this.releaseDate = releaseDate;
         this.isStarred = isStarred;
