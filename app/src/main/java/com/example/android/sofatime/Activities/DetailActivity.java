@@ -11,8 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.sofatime.Adapter.MovieAdapter;
+import com.example.android.sofatime.Adapter.ReviewAdapter;
 import com.example.android.sofatime.Adapter.TrailerAdapter;
 import com.example.android.sofatime.Model.Movie;
+import com.example.android.sofatime.Model.MovieReview;
+import com.example.android.sofatime.Model.MovieReviewList;
 import com.example.android.sofatime.Model.MovieTrailer;
 import com.example.android.sofatime.Model.MovieTrailerList;
 import com.example.android.sofatime.Network.RetrofitClientInstance;
@@ -28,7 +31,9 @@ import retrofit2.Response;
 public class DetailActivity extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerViewReviews;
     private TrailerAdapter mTrailerAdapter;
+    private ReviewAdapter mReviewAdapter;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +66,11 @@ public class DetailActivity extends AppCompatActivity {
         picasso.load(imageUrl).into(posterDetailView);
 
         loadTrailerData(detailedMovie.getId());
+        loadReviewData(detailedMovie.getId());
 
     }
 
+    //METHODS FOR TRAILER
     public void loadTrailerData(int id){
         RetrofitClientInstance.GetSpecificTrailersService service = RetrofitClientInstance.getRetrofitInstance(this ).create(RetrofitClientInstance.GetSpecificTrailersService.class);
         Call<MovieTrailerList> call = service.getSpecificTrailers(id);
@@ -72,7 +79,7 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<MovieTrailerList> call, Response<MovieTrailerList> response) {
-                generateDataList(response.body());
+                generateTrailerDataList(response.body());
 
             }
 
@@ -84,8 +91,9 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+
     //Initiates that the adapter does its work :-)
-    private void generateDataList(MovieTrailerList trailers){
+    private void generateTrailerDataList(MovieTrailerList trailers){
         mRecyclerView = findViewById(R.id.rv_trailer_list);
         ArrayList<MovieTrailer> trailerList = trailers.getTrailers();
         Log.e("TRAILERS", trailerList.toString());
@@ -95,6 +103,41 @@ public class DetailActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mTrailerAdapter = new TrailerAdapter(this, trailerList);
         mRecyclerView.setAdapter(mTrailerAdapter);
+
+    }
+
+    //METHODS FOR REVIEWS
+    public void loadReviewData(int id){
+        RetrofitClientInstance.GetSpecificReviewsService service = RetrofitClientInstance.getRetrofitInstance(this ).create(RetrofitClientInstance.GetSpecificReviewsService.class);
+        Call<MovieReviewList> call = service.getSpecificReviews(id);
+
+        call.enqueue(new Callback<MovieReviewList>() {
+
+            @Override
+            public void onResponse(Call<MovieReviewList> call, Response<MovieReviewList> response) {
+                generateReviewDataList(response.body());
+
+            }
+
+            @Override
+            public void onFailure(Call<MovieReviewList> call, Throwable t) {
+                Toast.makeText(DetailActivity.this, "Please turn on Internet Connection :-)" , Toast.LENGTH_SHORT).show();
+                Log.e("Tag", "This is the Throwable:", t);
+            }
+        });
+    }
+
+    //Initiates that the adapter does its work :-)
+    private void generateReviewDataList(MovieReviewList reviews){
+        mRecyclerViewReviews = findViewById(R.id.rv_review_list);
+        ArrayList<MovieReview> reviewList = reviews.getMovieReviews();
+        Log.e("REVIEWS", reviewList.toString());
+
+        mRecyclerViewReviews.setNestedScrollingEnabled(false);
+
+        mRecyclerViewReviews.setLayoutManager(new LinearLayoutManager(this));
+        mReviewAdapter = new ReviewAdapter(this, reviewList);
+        mRecyclerViewReviews.setAdapter(mReviewAdapter);
 
     }
 }

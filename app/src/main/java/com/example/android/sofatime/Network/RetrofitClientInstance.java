@@ -3,6 +3,7 @@ package com.example.android.sofatime.Network;
 import android.content.Context;
 
 import com.example.android.sofatime.BuildConfig;
+import com.example.android.sofatime.Model.MovieReviewList;
 import com.example.android.sofatime.Model.MovieTrailerList;
 import com.example.android.sofatime.Model.Movies;
 
@@ -54,7 +55,12 @@ public class RetrofitClientInstance {
 
     public interface GetSpecificTrailersService{
         @GET("movie/{id}/videos?api_key=" + API_KEY)
-        Call<MovieTrailerList> getSpecificTrailers(@Path("id") int id); //TODO Not sure here
+        Call<MovieTrailerList> getSpecificTrailers(@Path("id") int id);
+    }
+
+    public interface GetSpecificReviewsService{
+        @GET("movie/{id}/reviews?api_key=" + API_KEY)
+        Call<MovieReviewList> getSpecificReviews(@Path("id") int id);
     }
     
 

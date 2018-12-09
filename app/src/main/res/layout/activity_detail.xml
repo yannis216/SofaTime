@@ -70,6 +70,12 @@
             android:layout_height="wrap_content"
             android:background="#000" />
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_review_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#000" />
+
     </LinearLayout>
 
 
