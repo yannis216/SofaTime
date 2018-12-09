@@ -1,12 +1,16 @@
 package com.example.android.sofatime.Model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+@Entity(tableName = "movies")
 public class Movie implements Serializable {
-
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -29,6 +33,17 @@ public class Movie implements Serializable {
     @Expose
     private String releaseDate;
     private boolean isStarred = false; //TODO Dont know if this can cause issues later on
+
+    public Movie(Integer id, Double voteAverage, String title, String posterPath, String originalTitle, String overview, String releaseDate, boolean isStarred) {
+        this.id = id;
+        this.voteAverage = voteAverage;
+        this.title = title;
+        this.posterPath = posterPath;
+        this.originalTitle = originalTitle;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.isStarred = isStarred;
+    }
 
     public boolean isStarred() {
         return isStarred;

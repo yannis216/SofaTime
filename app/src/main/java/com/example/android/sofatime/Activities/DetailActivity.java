@@ -1,5 +1,6 @@
 package com.example.android.sofatime.Activities;
 
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.android.sofatime.Model.MovieReviewList;
 import com.example.android.sofatime.Model.MovieTrailer;
 import com.example.android.sofatime.Model.MovieTrailerList;
 import com.example.android.sofatime.Network.RetrofitClientInstance;
+import com.example.android.sofatime.Persistence.MovieDatabase;
 import com.example.android.sofatime.R;
 import com.squareup.picasso.Picasso;
 
@@ -37,14 +39,21 @@ public class DetailActivity extends AppCompatActivity {
     private RecyclerView mRecyclerViewReviews;
     private TrailerAdapter mTrailerAdapter;
     private ReviewAdapter mReviewAdapter;
+
+    private static final String DATABASE_NAME = "movies_db";
+    private MovieDatabase movieDatabase;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        movieDatabase = Room.databaseBuilder(getApplicationContext(),
+                MovieDatabase.class, DATABASE_NAME)
+                .build();  //TODO Continue here with https://medium.freecodecamp.org/room-sqlite-beginner-tutorial-2e725e47bfab and https://medium.com/androiddevelopers/7-steps-to-room-27a5fe5f99b2
+
         Intent intent = getIntent();
-        final Movie detailedMovie = (Movie) intent.getSerializableExtra("requestedMovie"); //TODO I do not belieben that final can work here
+        final Movie detailedMovie = (Movie) intent.getSerializableExtra("requestedMovie"); //TODO I do not believe that final can work here
         //I do understand why this has to be final - But I do not understand why it works: Arent final variables unable to change? But I am changing it with the onclick method?
 
         //getting all the views
