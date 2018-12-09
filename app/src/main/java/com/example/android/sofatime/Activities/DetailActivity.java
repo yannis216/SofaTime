@@ -1,11 +1,13 @@
 package com.example.android.sofatime.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +32,7 @@ import retrofit2.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerViewTrailers;
     private RecyclerView mRecyclerViewReviews;
     private TrailerAdapter mTrailerAdapter;
     private ReviewAdapter mReviewAdapter;
@@ -48,6 +50,7 @@ public class DetailActivity extends AppCompatActivity {
         TextView titleDetailView = findViewById(R.id.tv_title_detail);
         TextView releaseDateDetailView = findViewById(R.id.tv_releasedate_detail);
         TextView ratingDetailView = findViewById(R.id.tv_rating_detail);
+        ImageButton starView = findViewById(R.id.ib_star);
         TextView overviewDetailView = findViewById(R.id.tv_overview_detail);
 
         //getting necessary String Resources
@@ -60,6 +63,14 @@ public class DetailActivity extends AppCompatActivity {
         ratingDetailView.setText(rating_firstPart + detailedMovie.getVoteAverage().toString());
         overviewDetailView.setText(detailedMovie.getOverview());
 
+        boolean isStarred = detailedMovie.isStarred();
+        //Taking care of the Imagebutton
+        if(isStarred){
+            starView.setImageResource(R.drawable.baseline_star_black_18dp);
+            starView.setColorFilter(Color.argb(255,255,255,0));
+        }
+
+        //display the poster picture
         String imageUrl = MovieAdapter.BASE_IMG_URL +detailedMovie.getPosterPath();
         Picasso picasso = Picasso.with(posterDetailView.getContext());
         picasso.setLoggingEnabled(true);
@@ -94,15 +105,15 @@ public class DetailActivity extends AppCompatActivity {
 
     //Initiates that the adapter does its work :-)
     private void generateTrailerDataList(MovieTrailerList trailers){
-        mRecyclerView = findViewById(R.id.rv_trailer_list);
+        mRecyclerViewTrailers = findViewById(R.id.rv_trailer_list);
         ArrayList<MovieTrailer> trailerList = trailers.getTrailers();
         Log.e("TRAILERS", trailerList.toString());
 
-        mRecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerViewTrailers.setNestedScrollingEnabled(false);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerViewTrailers.setLayoutManager(new LinearLayoutManager(this));
         mTrailerAdapter = new TrailerAdapter(this, trailerList);
-        mRecyclerView.setAdapter(mTrailerAdapter);
+        mRecyclerViewTrailers.setAdapter(mTrailerAdapter);
 
     }
 

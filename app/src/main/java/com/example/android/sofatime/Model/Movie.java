@@ -51,6 +51,16 @@ public class Movie implements Serializable {
     @Expose
     private String releaseDate;
 
+    private boolean isStarred = false; //TODO Dont know if this can cause issues later on
+
+    public boolean isStarred() {
+        return isStarred;
+    }
+
+    public void setStarred(boolean starred) {
+        isStarred = starred;
+    }
+
     public Integer getVoteCount() {
         return voteCount;
     }

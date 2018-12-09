@@ -55,6 +55,13 @@
                     android:id="@+id/tv_rating_detail"
                     android:textColor="@color/whiteText"
                     android:padding="16dp"/>
+                <ImageButton
+                    android:id="@+id/ib_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_star_border_black_18dp"
+                    android:backgroundTint="#000"
+                    android:tint="@color/whiteText"/>
             </LinearLayout>
         </LinearLayout>
         <TextView
