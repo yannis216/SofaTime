@@ -61,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/baseline_star_border_black_18dp"
                     android:backgroundTint="#000"
-                    android:tint="@color/whiteText"/>
+                    android:tint="@color/whiteText"
+                    android:onClick="onClick"/>
             </LinearLayout>
         </LinearLayout>
         <TextView
