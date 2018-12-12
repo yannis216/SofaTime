@@ -67,7 +67,7 @@ public class DetailActivity extends AppCompatActivity {
                 if (detailedMovie.isStarred()){
                     detailedMovie.setStarred(false);
                     Log.e("StarValue", ""+ detailedMovie.isStarred());
-                    //TODO DELETE Movie from Room DB
+                    //DONE TODO DELETE Movie from Room DB
                     deleteMovie(movieDatabase, detailedMovie);
                 }
                 else{

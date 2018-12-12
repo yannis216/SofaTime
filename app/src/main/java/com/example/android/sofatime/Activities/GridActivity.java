@@ -1,5 +1,6 @@
 package com.example.android.sofatime.Activities;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,6 +57,7 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void generateDataList(List<Movie> movies){
         mRecyclerView = findViewById(R.id.rv_gridview);
         int numberOfColumns = 2;
+        LiveData<List<Movie>> liveMovies = movies;
 
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
@@ -73,6 +75,7 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
             @Override
             public void onResponse(Call<Movies> call, Response<Movies> response) {
                 List<Movie> movies = response.body().getResults();
+                LiveData<List<Movie>> liveMovies = movies;
                 generateDataList(movies);
             }
 
@@ -130,8 +133,8 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
         return super.onOptionsItemSelected(item);
     }
 
-    public List<Movie> getFavMoviesFromDb(MovieDatabase db){
-        List<Movie> movies = db.movieDao().getMovies();
+    public LiveData<List<Movie>> getFavMoviesFromDb(MovieDatabase db){
+        LiveData<List<Movie>> movies = db.movieDao().getMovies();
         return movies;
     }
 
