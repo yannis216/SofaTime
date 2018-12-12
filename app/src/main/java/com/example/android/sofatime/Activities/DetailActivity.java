@@ -51,7 +51,9 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         final Movie detailedMovie = (Movie) intent.getSerializableExtra("requestedMovie"); //TODO I do not believe that final can work here
-        //I do understand why this has to be final - But I do not understand why it works: Arent final variables unable to change? But I am changing it with the onclick method?
+        //I do understand why this has to be final - But I do not understand why it works: Arent final variables unable to change? But I am changing it with the onclick method? Semms to be like you can change parts of final
+
+        // TODO  Add a method that takes the information about isstarred from local db with detailedMovie = detailedMovie.setStarred();
 
         //getting all the views
         ImageView posterDetailView = findViewById(R.id.iv_poster_detail);
