@@ -61,6 +61,8 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     public void loadMovieData(String PopOrTop){
+
+        //TODO Maybe insert here a logic based on internet access retrieve from Room DB
         Call<Movies> call = PopOrTopFinder(PopOrTop);
         call.enqueue(new Callback<Movies>() {
 
@@ -73,6 +75,7 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
             public void onFailure(Call<Movies> call, Throwable t) {
                 Toast.makeText(GridActivity.this, "Please turn on Internet Connection :-)" , Toast.LENGTH_SHORT).show();
                 Log.e("Tag", "This is the Throwable:", t);
+                //TODO Maybe even here :-)
             }
         });
 

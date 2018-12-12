@@ -50,7 +50,8 @@ public class DetailActivity extends AppCompatActivity {
 
         movieDatabase = Room.databaseBuilder(getApplicationContext(),
                 MovieDatabase.class, DATABASE_NAME)
-                .build();  //TODO Continue here with https://medium.freecodecamp.org/room-sqlite-beginner-tutorial-2e725e47bfab and https://medium.com/androiddevelopers/7-steps-to-room-27a5fe5f99b2
+                .allowMainThreadQueries() //TODO CHANGE THIS
+                .build();
 
         Intent intent = getIntent();
         final Movie detailedMovie = (Movie) intent.getSerializableExtra("requestedMovie"); //TODO I do not believe that final can work here
@@ -68,10 +69,14 @@ public class DetailActivity extends AppCompatActivity {
                 if (detailedMovie.isStarred()){
                     detailedMovie.setStarred(false);
                     Log.e("StarValue", ""+ detailedMovie.isStarred());
+                    //TODO DELETE Movie from Room DB
                 }
                 else{
                     detailedMovie.setStarred(true);
                     Log.e("StarValue", ""+ detailedMovie.isStarred());
+                    //TODO Add Movie to Room Db
+
+
                 }
                 boolean isStarred = detailedMovie.isStarred();
 
