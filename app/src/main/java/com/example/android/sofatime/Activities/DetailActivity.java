@@ -1,6 +1,5 @@
 package com.example.android.sofatime.Activities;
 
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -48,10 +47,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        movieDatabase = Room.databaseBuilder(getApplicationContext(),
-                MovieDatabase.class, DATABASE_NAME)
-                .allowMainThreadQueries() //TODO CHANGE THIS
-                .build();
+        movieDatabase = MovieDatabase.getAppDatabase(this);
 
         Intent intent = getIntent();
         final Movie detailedMovie = (Movie) intent.getSerializableExtra("requestedMovie"); //TODO I do not believe that final can work here
@@ -70,11 +66,15 @@ public class DetailActivity extends AppCompatActivity {
                     detailedMovie.setStarred(false);
                     Log.e("StarValue", ""+ detailedMovie.isStarred());
                     //TODO DELETE Movie from Room DB
+                    deleteMovie(movieDatabase, detailedMovie);
                 }
                 else{
                     detailedMovie.setStarred(true);
                     Log.e("StarValue", ""+ detailedMovie.isStarred());
                     //TODO Add Movie to Room Db
+                    addMovieToDb(movieDatabase, detailedMovie);
+
+
 
 
                 }
@@ -136,6 +136,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onFailure(Call<MovieTrailerList> call, Throwable t) {
                 Toast.makeText(DetailActivity.this, "Please turn on Internet Connection :-)" , Toast.LENGTH_SHORT).show();
                 Log.e("Tag", "This is the Throwable:", t);
+
             }
         });
     }
@@ -202,7 +203,18 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    //Database Methods
 
+    private static Movie addMovieToDb(final MovieDatabase db, Movie movie) {
+        db.movieDao().insertMovie(movie);
+        Log.e("addMovietoDb", "has been called with" + movie.toString());
+        return movie;
+    }
 
+    private static void deleteMovie(final  MovieDatabase db, Movie movie){
+        db.movieDao().deleteMovie(movie);
+        Log.e("deleteMovie", "has been called on" + movie.toString());
 
-}
+    }
+
+    }
