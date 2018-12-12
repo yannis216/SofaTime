@@ -78,8 +78,8 @@ public class DetailActivity extends AppCompatActivity {
 
 
                 }
-                boolean isStarred = detailedMovie.isStarred();
 
+                boolean isStarred = detailedMovie.isStarred();
                 setImageForStar(isStarred, starView);
 
             }
@@ -134,7 +134,7 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MovieTrailerList> call, Throwable t) {
-                Toast.makeText(DetailActivity.this, "Please turn on Internet Connection :-)" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailActivity.this, "Please turn on Internet Connection for Trailers and Reviews :-)" , Toast.LENGTH_SHORT).show();
                 Log.e("Tag", "This is the Throwable:", t);
 
             }
@@ -171,7 +171,7 @@ public class DetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MovieReviewList> call, Throwable t) {
-                Toast.makeText(DetailActivity.this, "Please turn on Internet Connection :-)" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailActivity.this, "Please turn on Internet Connection for Trailers and Reviews :-)" , Toast.LENGTH_LONG).show();
                 Log.e("Tag", "This is the Throwable:", t);
             }
         });

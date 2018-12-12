@@ -19,6 +19,7 @@ import com.example.android.sofatime.Network.RetrofitClientInstance;
 import com.example.android.sofatime.Persistence.MovieDatabase;
 import com.example.android.sofatime.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,13 +54,13 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     //Initiates that the adapter does its work :-)
-    private void generateDataList(List<Movie> movies){
+    private void generateDataList(Movies movies){
         mRecyclerView = findViewById(R.id.rv_gridview);
         int numberOfColumns = 2;
-
+        ArrayList<Movie> movieList = movies.getResults();
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        mMovieAdapter = new MovieAdapter(this, movies, this);
+        mMovieAdapter = new MovieAdapter(this, movieList, this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
     }
@@ -72,8 +73,9 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             @Override
             public void onResponse(Call<Movies> call, Response<Movies> response) {
-                List<Movie> movies = response.body().getResults();
-                generateDataList(movies);
+                movies
+                List<Movie> = moviesList =movies.get
+                generateDataList(response.body());
             }
 
             @Override
@@ -81,6 +83,8 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
                 Toast.makeText(GridActivity.this, "We can only show your favourite movies as your internet connection seems to be turned off" , Toast.LENGTH_LONG).show();
                 Log.e("Tag", "This is the Throwable:", t);
                 //TODO Maybe even here :-)
+
+
                 generateDataList(getFavMoviesFromDb(movieDatabase));
 
             }
