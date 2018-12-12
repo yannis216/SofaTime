@@ -13,7 +13,6 @@ import com.example.android.sofatime.Model.Movie;
 import com.example.android.sofatime.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +27,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     }
 
 
-    public MovieAdapter (Context context, ArrayList<Movie> moviesList, MovieAdapterOnClickHandler clickHandler){
+    public MovieAdapter (Context context, List<Movie> moviesList, MovieAdapterOnClickHandler clickHandler){
         this.mInflater = LayoutInflater.from(context);
         this.movies = moviesList;
         mClickHandler = clickHandler;

@@ -12,13 +12,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.example.android.sofatime.Model.Movie;
 import com.example.android.sofatime.Adapter.MovieAdapter;
+import com.example.android.sofatime.Model.Movie;
 import com.example.android.sofatime.Model.Movies;
-import com.example.android.sofatime.R;
 import com.example.android.sofatime.Network.RetrofitClientInstance;
+import com.example.android.sofatime.Persistence.MovieDatabase;
+import com.example.android.sofatime.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,11 +30,14 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
+    private MovieDatabase movieDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid);
+
+        movieDatabase = MovieDatabase.getAppDatabase(this);
 
         String PopOrTop = "Pop"; // "Default setting because I like to see the Popular movies as default (And yes I know I could let the user set this via preferences :-) )"
         loadMovieData(PopOrTop);
@@ -49,13 +53,13 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     //Initiates that the adapter does its work :-)
-    private void generateDataList(Movies movies){
+    private void generateDataList(List<Movie> movies){
         mRecyclerView = findViewById(R.id.rv_gridview);
         int numberOfColumns = 2;
-        ArrayList<Movie> movieList = movies.getResults();
+
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        mMovieAdapter = new MovieAdapter(this, movieList, this);
+        mMovieAdapter = new MovieAdapter(this, movies, this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
     }
@@ -68,14 +72,17 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             @Override
             public void onResponse(Call<Movies> call, Response<Movies> response) {
-                generateDataList(response.body());
+                List<Movie> movies = response.body().getResults();
+                generateDataList(movies);
             }
 
             @Override
             public void onFailure(Call<Movies> call, Throwable t) {
-                Toast.makeText(GridActivity.this, "Please turn on Internet Connection :-)" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(GridActivity.this, "We can only show your favourite movies as your internet connection seems to be turned off" , Toast.LENGTH_LONG).show();
                 Log.e("Tag", "This is the Throwable:", t);
                 //TODO Maybe even here :-)
+                generateDataList(getFavMoviesFromDb(movieDatabase));
+
             }
         });
 
@@ -121,6 +128,11 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
                 break;}
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public List<Movie> getFavMoviesFromDb(MovieDatabase db){
+        List<Movie> movies = db.movieDao().getMovies();
+        return movies;
     }
 
 
