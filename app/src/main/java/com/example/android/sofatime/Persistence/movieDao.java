@@ -1,6 +1,5 @@
 package com.example.android.sofatime.Persistence;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -15,7 +14,7 @@ import java.util.List;
 @Dao
 public interface movieDao{
     @Query ("SELECT * FROM movies")
-    LiveData<List<Movie>> getMovies();
+    List<Movie> getMovies();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMovie(Movie movie);
