@@ -1,7 +1,7 @@
 package com.example.android.sofatime.Activities;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.android.sofatime.Adapter.MovieAdapter;
 import com.example.android.sofatime.Model.Movie;
+import com.example.android.sofatime.Model.MovieViewModel;
 import com.example.android.sofatime.Model.Movies;
 import com.example.android.sofatime.Network.RetrofitClientInstance;
 import com.example.android.sofatime.Persistence.MovieDatabase;
@@ -84,7 +85,7 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
                 Toast.makeText(GridActivity.this, "We can only show your favourite movies as your internet connection seems to be turned off" , Toast.LENGTH_LONG).show();
                 Log.e("Tag", "This is the Throwable:", t);
                 //TODO Maybe even here :-)
-                getFavMoviesFromDb(movieDatabase);
+                setupViewModel(movieDatabase);
             }
         });
 
@@ -128,15 +129,20 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
                 String PopOrTop= "Top";
                 loadMovieData(PopOrTop);
                 break;}
+            case R.id.preference_fav:{
+                movieDatabase = MovieDatabase.getAppDatabase(this);
+                setupViewModel(movieDatabase);
+                break;}
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void getFavMoviesFromDb(MovieDatabase db){
-        LiveData<List<Movie>> liveMovies = db.movieDao().getMovies();
-        liveMovies.observe(this, new Observer<List<Movie>>() {
+    public void setupViewModel(MovieDatabase db){
+        MovieViewModel viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
+        viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
+                Log.e("setupViewModel", "Updating List from LiveData in Viewmodel");
                 generateDataList(movies);
             }
         });

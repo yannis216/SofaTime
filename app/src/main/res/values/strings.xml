@@ -4,5 +4,5 @@
     <string name="movie_release">"Released: "</string>
     <string name="preference_top">Sort by Userrating</string>
     <string name="preference_pop">Sort by Popularity</string>
-
+    <string name="preference_fav">Show only favourites</string>
 </resources>

@@ -2,6 +2,7 @@ package com.example.android.sofatime.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdap
         MovieReview currentReview = reviews.get(position);
 
         final String reviewAuthorName = currentReview.getAuthor();
+        Log.e("REVIEW", "Authorname= " + reviewAuthorName);
         String reviewContent = currentReview.getContent();
 
         TextView authorNameView = reviewAdapterViewHolder.itemView.findViewById(R.id.tv_review_author_name);

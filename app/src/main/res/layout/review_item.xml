@@ -3,15 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingBottom="12dp">
     <TextView
         android:id="@+id/tv_review_author_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_review_content"
-        android:text="Für diesen Film existieren keine Reviews"
+        android:layout_weight="2"
         android:textColor="@color/whiteText"/>
+    <TextView
+        android:id="@+id/tv_review_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Für diesen Film existieren keine Reviews"
+        android:textColor="@color/whiteText"
+        android:layout_weight="6" />
 </LinearLayout>

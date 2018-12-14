@@ -1,5 +1,6 @@
 package com.example.android.sofatime.Activities;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.example.android.sofatime.Adapter.MovieAdapter;
 import com.example.android.sofatime.Adapter.ReviewAdapter;
 import com.example.android.sofatime.Adapter.TrailerAdapter;
+import com.example.android.sofatime.Model.DetailMovieViewModel;
+import com.example.android.sofatime.Model.DetailMovieViewModelFactory;
 import com.example.android.sofatime.Model.Movie;
 import com.example.android.sofatime.Model.MovieReview;
 import com.example.android.sofatime.Model.MovieReviewList;
@@ -202,25 +205,43 @@ public class DetailActivity extends AppCompatActivity {
     }
     //Database Methods
 
-    private static Movie addMovieToDb(final MovieDatabase db, Movie movie) {
-        db.movieDao().insertMovie(movie);
-        Log.e("addMovietoDb", "has been called with" + movie.toString());
+    private static Movie addMovieToDb(final MovieDatabase db, final Movie movie) {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                db.movieDao().insertMovie(movie);
+                Log.e("addMovietoDb", "has been called with" + movie.toString());
+            }
+        });
+        thread.start();
         return movie;
     }
 
-    private static void deleteMovie(final  MovieDatabase db, Movie movie){
-        db.movieDao().deleteMovie(movie);
-        Log.e("deleteMovie", "has been called on" + movie.toString());
+    private static void deleteMovie(final MovieDatabase db, final Movie movie){
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                db.movieDao().deleteMovie(movie);
+                Log.e("deleteMovie", "has been called on" + movie.toString());
+            }
+        });
+        thread.start();
+
 
     }
 
-    public Movie adaptStarredToOfflineValue(MovieDatabase db, final Movie detailedMovie){
-        Movie liveMovie = db.movieDao().getMovie(detailedMovie.getId());
-        if(liveMovie == null){
+    public Movie adaptStarredToOfflineValue(MovieDatabase db, Movie detailedMovie){
+        DetailMovieViewModelFactory factory = new DetailMovieViewModelFactory(db, detailedMovie.getId());
+        final DetailMovieViewModel viewModel = ViewModelProviders.of(this, factory).get(DetailMovieViewModel.class);
+        Movie movie = viewModel.getMovie();
+        if(movie == null){
             return detailedMovie;
         }
         else{
-            detailedMovie.setStarred(liveMovie.isStarred());
+            detailedMovie.setStarred(movie.isStarred());
+            Log.e("AdaptStarred", "ViewModel has been requested for single Movie");
             return detailedMovie;
         }
 
