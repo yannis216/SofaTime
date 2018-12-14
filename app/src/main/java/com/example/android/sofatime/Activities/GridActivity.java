@@ -1,9 +1,11 @@
 package com.example.android.sofatime.Activities;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,7 +59,6 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void generateDataList(List<Movie> movies){
         mRecyclerView = findViewById(R.id.rv_gridview);
         int numberOfColumns = 2;
-        LiveData<List<Movie>> liveMovies = movies;
 
 
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
@@ -75,7 +76,6 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
             @Override
             public void onResponse(Call<Movies> call, Response<Movies> response) {
                 List<Movie> movies = response.body().getResults();
-                LiveData<List<Movie>> liveMovies = movies;
                 generateDataList(movies);
             }
 
@@ -84,8 +84,7 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
                 Toast.makeText(GridActivity.this, "We can only show your favourite movies as your internet connection seems to be turned off" , Toast.LENGTH_LONG).show();
                 Log.e("Tag", "This is the Throwable:", t);
                 //TODO Maybe even here :-)
-                generateDataList(getFavMoviesFromDb(movieDatabase));
-
+                getFavMoviesFromDb(movieDatabase);
             }
         });
 
@@ -133,10 +132,13 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
         return super.onOptionsItemSelected(item);
     }
 
-    public LiveData<List<Movie>> getFavMoviesFromDb(MovieDatabase db){
-        LiveData<List<Movie>> movies = db.movieDao().getMovies();
-        return movies;
+    public void getFavMoviesFromDb(MovieDatabase db){
+        LiveData<List<Movie>> liveMovies = db.movieDao().getMovies();
+        liveMovies.observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                generateDataList(movies);
+            }
+        });
     }
-
-
 }

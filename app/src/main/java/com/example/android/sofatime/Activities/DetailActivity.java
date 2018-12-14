@@ -50,10 +50,10 @@ public class DetailActivity extends AppCompatActivity {
         movieDatabase = MovieDatabase.getAppDatabase(this);
 
         Intent intent = getIntent();
-        final Movie detailedMovie = (Movie) intent.getSerializableExtra("requestedMovie"); //TODO I do not believe that final can work here
-        //I do understand why this has to be final - But I do not understand why it works: Arent final variables unable to change? But I am changing it with the onclick method? Semms to be like you can change parts of final
+        Movie initialMovie = (Movie) intent.getSerializableExtra("requestedMovie");
+        final Movie detailedMovie = adaptStarredToOfflineValue(movieDatabase, initialMovie);
 
-        // TODO  Add a method that takes the information about isstarred from local db with detailedMovie = detailedMovie.setStarred();
+        // DONE TODO  Add a method that takes the information about isstarred from local db with detailedMovie = detailedMovie.setStarred();
 
         //getting all the views
         ImageView posterDetailView = findViewById(R.id.iv_poster_detail);
@@ -61,6 +61,8 @@ public class DetailActivity extends AppCompatActivity {
         TextView releaseDateDetailView = findViewById(R.id.tv_releasedate_detail);
         TextView ratingDetailView = findViewById(R.id.tv_rating_detail);
         final ImageButton starView = findViewById(R.id.ib_star);
+
+
 
         starView.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -73,12 +75,8 @@ public class DetailActivity extends AppCompatActivity {
                 else{
                     detailedMovie.setStarred(true);
                     Log.e("StarValue", ""+ detailedMovie.isStarred());
-                    //TODO Add Movie to Room Db
+                    //DONE TODO Add Movie to Room Db
                     addMovieToDb(movieDatabase, detailedMovie);
-
-
-
-
                 }
                 boolean isStarred = detailedMovie.isStarred();
 
@@ -86,8 +84,6 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         });
-
-
 
         TextView overviewDetailView = findViewById(R.id.tv_overview_detail);
 
@@ -104,7 +100,7 @@ public class DetailActivity extends AppCompatActivity {
         //Take care of isStarred on initial load
         boolean isStarred = detailedMovie.isStarred();
         setImageForStar(isStarred, starView);
-        //TODO Have a look at this when Room is implemented
+        //DONE TODO Have a look at this when Room is implemented
 
 
 
@@ -204,7 +200,6 @@ public class DetailActivity extends AppCompatActivity {
             starView.setColorFilter(Color.argb(255,255,255,255));
         }
     }
-
     //Database Methods
 
     private static Movie addMovieToDb(final MovieDatabase db, Movie movie) {
@@ -216,6 +211,18 @@ public class DetailActivity extends AppCompatActivity {
     private static void deleteMovie(final  MovieDatabase db, Movie movie){
         db.movieDao().deleteMovie(movie);
         Log.e("deleteMovie", "has been called on" + movie.toString());
+
+    }
+
+    public Movie adaptStarredToOfflineValue(MovieDatabase db, final Movie detailedMovie){
+        Movie liveMovie = db.movieDao().getMovie(detailedMovie.getId());
+        if(liveMovie == null){
+            return detailedMovie;
+        }
+        else{
+            detailedMovie.setStarred(liveMovie.isStarred());
+            return detailedMovie;
+        }
 
     }
 
