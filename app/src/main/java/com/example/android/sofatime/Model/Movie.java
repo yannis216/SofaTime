@@ -29,7 +29,7 @@ public class Movie implements Serializable {
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
-    private boolean isStarred = false; //TODO Dont know if this can cause issues later on
+    private boolean isStarred = false; //DONE TODO Dont know if this can cause issues later on
 
     public Movie(Integer id, Double voteAverage, String title, String posterPath, String overview, String releaseDate, boolean isStarred) {
         this.id = id;

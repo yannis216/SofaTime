@@ -75,15 +75,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         TextView titleView = movieAdapterViewHolder.itemView.findViewById(R.id.tv_title);
         TextView ratingView = movieAdapterViewHolder.itemView.findViewById(R.id.tv_rating);
         ImageView posterView = movieAdapterViewHolder.itemView.findViewById(R.id.iv_poster);
-        // TODO I really dont understand why this ".itemView." works here(Android studio proposed it). It works! But is it "Best practice" to do it this way?
 
         //Implementing the visualisation of the rating
         View greenView = movieAdapterViewHolder.itemView.findViewById(R.id.visualRatingGreen);
         View greyView = movieAdapterViewHolder.itemView.findViewById(R.id.visualRatingGrey);
         ((LinearLayout.LayoutParams) greenView.getLayoutParams()).weight = voteAverage;
         ((LinearLayout.LayoutParams) greyView.getLayoutParams()).weight = 10- voteAverage;
-        //TODO I tried to add some visualization here - it works only for the first few views, when you scroll down it gets displayed wrongly. Is that because of the recyclement of the views?
-        //TODO What would be the appropriate way to handle this functionality?
 
 
         titleView.setText(title);

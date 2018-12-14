@@ -69,8 +69,6 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     public void loadMovieData(String PopOrTop){
-
-        //TODO Maybe insert here a logic based on internet access retrieve from Room DB
         Call<Movies> call = PopOrTopFinder(PopOrTop);
         call.enqueue(new Callback<Movies>() {
 
@@ -84,7 +82,6 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
             public void onFailure(Call<Movies> call, Throwable t) {
                 Toast.makeText(GridActivity.this, "We can only show your favourite movies as your internet connection seems to be turned off" , Toast.LENGTH_LONG).show();
                 Log.e("Tag", "This is the Throwable:", t);
-                //TODO Maybe even here :-)
                 setupViewModel(movieDatabase);
             }
         });

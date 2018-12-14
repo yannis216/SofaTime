@@ -192,7 +192,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    private void setImageForStar(boolean isStarred, ImageButton starView){  //TODO Have a look at this when Room is implemented
+    private void setImageForStar(boolean isStarred, ImageButton starView){  //DONE TODO Have a look at this when Room is implemented
         //Taking care of the Imagebutton
         if(isStarred){
             starView.setImageResource(R.drawable.baseline_star_black_18dp);

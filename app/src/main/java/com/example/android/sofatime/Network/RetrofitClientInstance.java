@@ -23,7 +23,7 @@ public class RetrofitClientInstance {
 
     public static Retrofit getRetrofitInstance(Context context) {
 
-        //TODO Remove Debug Stuff
+        //Debug Stuff
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
