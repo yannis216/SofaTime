@@ -12,17 +12,22 @@ import java.util.List;
 
 public class MovieViewModel extends AndroidViewModel {
 
-    private LiveData<List<Movie>> movies;
+    private LiveData<List<Movie>> localMovies;
+    private List<Movie> apiMovies;
 
     public MovieViewModel(@NonNull Application application) {
         super(application);
         MovieDatabase database = MovieDatabase.getAppDatabase(this.getApplication());
         Log.e("Viewmodel", "Actively getting data from database");
-        movies = database.movieDao().getMovies();
+        localMovies = database.movieDao().getMovies();
     }
 
-    public LiveData<List<Movie>> getMovies() {
-        return movies;
+    public LiveData<List<Movie>> getLocalMovies() {
+        return localMovies;
+    }
+
+    public List<Movie> getApiMovies(){
+        return apiMovies;
     }
 
 

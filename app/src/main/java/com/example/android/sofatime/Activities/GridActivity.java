@@ -82,7 +82,7 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
             public void onFailure(Call<Movies> call, Throwable t) {
                 Toast.makeText(GridActivity.this, "We can only show your favourite movies as your internet connection seems to be turned off" , Toast.LENGTH_LONG).show();
                 Log.e("Tag", "This is the Throwable:", t);
-                setupViewModel(movieDatabase);
+                setupLocalViewModel(movieDatabase);
             }
         });
 
@@ -128,15 +128,15 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
                 break;}
             case R.id.preference_fav:{
                 movieDatabase = MovieDatabase.getAppDatabase(this);
-                setupViewModel(movieDatabase);
+                setupLocalViewModel(movieDatabase);
                 break;}
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void setupViewModel(MovieDatabase db){
+    public void setupLocalViewModel(MovieDatabase db){
         MovieViewModel viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
-        viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
+        viewModel.getLocalMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
                 Log.e("setupViewModel", "Updating List from LiveData in Viewmodel");
