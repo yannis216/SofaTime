@@ -35,6 +35,8 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     private RecyclerView mRecyclerView;
     private MovieAdapter mMovieAdapter;
     private MovieDatabase movieDatabase;
+    private MovieViewModel viewModel;
+    private String PopOrTop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +44,21 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
         setContentView(R.layout.activity_grid);
 
         movieDatabase = MovieDatabase.getAppDatabase(this);
+        viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
 
-        String PopOrTop = "Pop"; // "Default setting because I like to see the Popular movies as default (And yes I know I could let the user set this via preferences :-) )"
-        loadMovieData(PopOrTop);
+        if(PopOrTop == null){
+            PopOrTop = "Pop";
+        }
+        if(viewModel.getApiPopMovies() == null && viewModel.getApiTopMovies() == null){
+            loadMovieData(PopOrTop);
+        }else{
+            if(PopOrTop == "Pop"){
+                generateDataList(viewModel.getApiPopMovies());
+            }else if(PopOrTop == "Top"){
+                generateDataList(viewModel.getApiTopMovies());
+            }
+        }
+
     }
 
     @Override
@@ -68,13 +82,21 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     }
 
-    public void loadMovieData(String PopOrTop){
+    public void loadMovieData(final String PopOrTop){
         Call<Movies> call = PopOrTopFinder(PopOrTop);
         call.enqueue(new Callback<Movies>() {
 
             @Override
             public void onResponse(Call<Movies> call, Response<Movies> response) {
                 List<Movie> movies = response.body().getResults();
+                if(PopOrTop == "Pop") {
+                    viewModel.setApiPopMovies(movies);
+                    Log.e("PopMovies ViewModel", "Value ist gleich: " +viewModel.getApiPopMovies());
+                }
+                if(PopOrTop =="Top"){
+                    viewModel.setApiTopMovies(movies);
+                    Log.e("TopMovies ViewModel", "Value ist gleich: " +viewModel.getApiTopMovies());
+                }
                 generateDataList(movies);
             }
 
@@ -135,7 +157,6 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     public void setupLocalViewModel(MovieDatabase db){
-        MovieViewModel viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
         viewModel.getLocalMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(@Nullable List<Movie> movies) {
