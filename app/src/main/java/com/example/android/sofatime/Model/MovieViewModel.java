@@ -20,6 +20,7 @@ public class MovieViewModel extends AndroidViewModel {
         MovieDatabase database = MovieDatabase.getAppDatabase(this.getApplication());
         Log.e("Viewmodel", "Actively getting data from database");
         localMovies = database.movieDao().getMovies();
+        apiMovies = loadMovieData();
     }
 
     public LiveData<List<Movie>> getLocalMovies() {
@@ -28,6 +29,10 @@ public class MovieViewModel extends AndroidViewModel {
 
     public List<Movie> getApiMovies(){
         return apiMovies;
+    }
+
+    private void loadMovieData(){
+
     }
 
 
