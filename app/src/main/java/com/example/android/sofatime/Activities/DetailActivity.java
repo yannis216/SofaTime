@@ -1,10 +1,11 @@
 package com.example.android.sofatime.Activities;
 
-import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +56,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Movie initialMovie = (Movie) intent.getSerializableExtra("requestedMovie");
-        final Movie detailedMovie = adaptStarredToOfflineValue(movieDatabase, initialMovie);
+
 
         // DONE TODO  Add a method that takes the information about isstarred from local db with detailedMovie = detailedMovie.setStarred();
 
@@ -65,6 +66,8 @@ public class DetailActivity extends AppCompatActivity {
         TextView releaseDateDetailView = findViewById(R.id.tv_releasedate_detail);
         TextView ratingDetailView = findViewById(R.id.tv_rating_detail);
         final ImageButton starView = findViewById(R.id.ib_star);
+
+        final Movie detailedMovie = adaptStarredToOfflineValue(movieDatabase, initialMovie, starView);
 
 
 
@@ -233,18 +236,25 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    public Movie adaptStarredToOfflineValue(MovieDatabase db, Movie detailedMovie){
+    public Movie adaptStarredToOfflineValue(MovieDatabase db, final Movie detailedMovie, final ImageButton starView){
         DetailMovieViewModelFactory factory = new DetailMovieViewModelFactory(db, detailedMovie.getId());
         final DetailMovieViewModel viewModel = ViewModelProviders.of(this, factory).get(DetailMovieViewModel.class);
-        LiveData<Movie> movie = viewModel.getMovie();
-        if(movie == null){
+        viewModel.getMovie().observe(this, new Observer<Movie>() {
+            @Override
+            public void onChanged(@Nullable Movie movie) {
+                Log.e("AdaptStarred", "ViewModel has been requested for single Movie");
+                if(movie != null){
+                    detailedMovie.setStarred(movie.isStarred());
+                    setImageForStar(movie.isStarred(), starView);
+                }
+                else{
+                    detailedMovie.setStarred(false);
+                    setImageForStar(false, starView);
+                }
+            }
+        });
+
             return detailedMovie;
-        }
-        else{
-            Log.e("AdaptStarred", "ViewModel has been requested for single Movie");
-            detailedMovie.setStarred(movie.getValue().isStarred());
-            return detailedMovie;
-        }
 
     }
 
