@@ -37,6 +37,7 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
     private MovieDatabase movieDatabase;
     private MovieViewModel viewModel;
     private String PopOrTop;
+    static final String STATE_POPORTOP = "POPORTOP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +47,29 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
         movieDatabase = MovieDatabase.getAppDatabase(this);
         viewModel = ViewModelProviders.of(this).get(MovieViewModel.class);
 
-        if(PopOrTop == null){
-            PopOrTop = "Pop";
+        if (savedInstanceState != null) {
+            // Restore value of PoporTop from saved state
+            PopOrTop = savedInstanceState.getString(STATE_POPORTOP);
+            Log.e("ifSavedInstance", "POPORTOP hat Wert" + PopOrTop);
+
+        } else {
+            if(PopOrTop == null){
+                PopOrTop = "Pop";
+            }
         }
+
         if(viewModel.getApiPopMovies() == null && viewModel.getApiTopMovies() == null){
             loadMovieData(PopOrTop);
         }else{
             if(PopOrTop == "Pop"){
+                Log.e("onCreate", "generateDataList with getApiPOPMovies wird gecalled");
                 generateDataList(viewModel.getApiPopMovies());
             }else if(PopOrTop == "Top"){
+                Log.e("onCreate", "generateDataList with getApiTOPMovies wird gecalled");
                 generateDataList(viewModel.getApiTopMovies());
+            }
+            else if(PopOrTop == "fav"){
+                generateDataList(viewModel.getLocalMovies().getValue());
             }
         }
 
@@ -140,15 +154,16 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
         int id = item.getItemId();
         switch (id) {
             case R.id.preference_pop:{
-                String PopOrTop= "Pop";
+                PopOrTop= "Pop";
                 loadMovieData(PopOrTop);
                 break;}
 
             case R.id.preference_top:{
-                String PopOrTop= "Top";
+                PopOrTop= "Top";
                 loadMovieData(PopOrTop);
                 break;}
             case R.id.preference_fav:{
+                PopOrTop = "fav";
                 movieDatabase = MovieDatabase.getAppDatabase(this);
                 setupLocalViewModel(movieDatabase);
                 break;}
@@ -164,5 +179,12 @@ public class GridActivity extends AppCompatActivity implements MovieAdapter.Movi
                 generateDataList(movies);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString(STATE_POPORTOP, PopOrTop);
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 }
