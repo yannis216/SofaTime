@@ -1,5 +1,6 @@
 package com.example.android.sofatime.Activities;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Color;
@@ -235,13 +236,13 @@ public class DetailActivity extends AppCompatActivity {
     public Movie adaptStarredToOfflineValue(MovieDatabase db, Movie detailedMovie){
         DetailMovieViewModelFactory factory = new DetailMovieViewModelFactory(db, detailedMovie.getId());
         final DetailMovieViewModel viewModel = ViewModelProviders.of(this, factory).get(DetailMovieViewModel.class);
-        Movie movie = viewModel.getMovie();
+        LiveData<Movie> movie = viewModel.getMovie();
         if(movie == null){
             return detailedMovie;
         }
         else{
-            detailedMovie.setStarred(movie.isStarred());
             Log.e("AdaptStarred", "ViewModel has been requested for single Movie");
+            detailedMovie.setStarred(movie.getValue().isStarred());
             return detailedMovie;
         }
 
